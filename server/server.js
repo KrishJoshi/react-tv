@@ -31,6 +31,16 @@ router.get('/torrent/:text', function (req, res, next) {
   getTorrents(req.params.text).then(torrents => res.send(torrents))
 });
 
+app.use(router)
+
+// any routes not picked up by the server api will be handled by the react router
+app.use('/*', staticFiles)
+
+app.set('port', (process.env.PORT || 3001))
+app.listen(app.get('port'), () => {
+  console.log(`Listening on ${app.get('port')}`)
+})
+
 var config = {
   headers: {
     'trakt-api-key': '90b2bb1a8203e81a0272fb8717fa8b19ec635d8568632e41d1fcf872a2a2d9d0',
@@ -106,10 +116,3 @@ function getTvShow(text) {
         });
     })
 }
-
-app.use(router)
-app.set('port', (process.env.PORT || 3001))
-
-app.listen(app.get('port'), () => {
-  console.log(`Listening on ${app.get('port')}`)
-})
