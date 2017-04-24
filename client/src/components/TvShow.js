@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 
-import {FlatButton} from 'material-ui';
+import {ListItem,List, Subheader} from 'material-ui';
 
 import {getTvShow} from '../util/trakt-api'
 
@@ -18,34 +17,45 @@ class TvShow extends Component {
   }
 
   render() {
-    var show = this.state.show;
+    const show = this.state.show;
 
-    function showSeasons(season) {
-      return <li>
-        <FlatButton label={"Season " + season.number} primary={true}/>
-      </li>
+    function episodesList(season) {
+      return (
+        season.episodes.map(episode => {
+          return <ListItem
+            key={episode.number}
+            primaryText={episode.title}
+          />
+        })
+      )
     }
 
-    function showEpisodes(season) {
-      return <ul>
-        {season
-          .episodes
-          .map(episode => {
-            return <li>
-              <FlatButton label={episode.title} primary ={true}/>
-            </li>
-          })}
-      </ul>
+    function seasonShowList(show) {
+      return (
+          <List>
+            <Subheader>{show.title}</Subheader>
+
+            {
+              show.seasons.map(season =>
+                <ListItem
+                  key={season.number}
+                  primaryText={'Season '+ season.number}
+                  initiallyOpen={true}
+                  primaryTogglesNestedList={true}
+                  nestedItems={episodesList(season)}
+                />
+              )
+            }
+          </List>
+      )
     }
 
     if (show.seasons) {
       return (
         <ul className='app'>
-          {show
-            .seasons
-            .map(season => {
-              return ([showSeasons(season), showEpisodes(season)])
-            })}
+          {
+            seasonShowList(show)
+          }
         </ul>
       )
     } else {

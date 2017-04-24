@@ -1,9 +1,26 @@
-var express = require('express');
-var router = express.Router();
+// routes/index.js
+import fs from "fs";
+const validFileTypes = ['js'];
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-    res.sendFile(path.join(__dirname + '/client/build/index.html'));
-});
+let requireFiles = function(directory, app, config, db) {
+  fs.readdirSync(directory).forEach(function(fileName) {
+    // Recurse if directory
+    if (fs.lstatSync(directory + '/' + fileName).isDirectory()) {
+      requireFiles(directory + '/' + fileName, app, config, db);
+    } else {
 
-module.exports = router;
+      // Skip this file
+      if (fileName === 'index.js' && directory === __dirname) return;
+
+      // Skip unknown filetypes
+      if (validFileTypes.indexOf(fileName.split('.').pop()) === -1) return;
+
+      // Require the file.
+      require(directory + '/' + fileName)(app, config, db);
+    }
+  });
+};
+
+module.exports = function(app, config, db) {
+  requireFiles(__dirname, app, config, db);
+};

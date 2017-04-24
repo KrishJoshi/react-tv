@@ -20,9 +20,9 @@ const styles = {
 };
 
 function debounce(fn, delay) {
-  var timer = null;
+  let timer = null;
   return function () {
-    var context = this,
+    const context = this,
       args = arguments;
     clearTimeout(timer);
     timer = setTimeout(function () {
@@ -73,11 +73,9 @@ class App extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log('mapStateToProps', state);
   return { term: state.term }
 }
 
 export default connect(mapStateToProps, dispatch => {
-  console.log('dispatch', dispatch);
-  // return { search: () => dispatch(search) }
+  return { search: () => dispatch(search) }
 })(App);

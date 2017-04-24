@@ -25,13 +25,13 @@ class TvShowCard extends Component {
     this.setState({logo: ''})
 
     if (this.props.show.fanart) {
-      if (this.props.show.fanart.clearart) 
+      if (this.props.show.fanart.clearart)
         this.setState({logo: this.props.show.fanart.clearart[0].url})
-      if (this.props.show.fanart.hdtvlogo) 
+      if (this.props.show.fanart.hdtvlogo)
         this.setState({logo: this.props.show.fanart.hdtvlogo[0].url})
-      if (this.props.show.fanart.tvthumb) 
+      if (this.props.show.fanart.tvthumb)
         this.setState({logo: this.props.show.fanart.tvthumb[0].url})
-      if (this.props.show.fanart.clearlogo) 
+      if (this.props.show.fanart.clearlogo)
         this.setState({logo: this.props.show.fanart.clearlogo[0].url})
 
     } else {
@@ -40,10 +40,10 @@ class TvShowCard extends Component {
   }
 
   render() {
-    const linkTo = '/torrent/' + this.props.show.ids.trakt;
+    const linkTo = '/show/' + this.props.show.ids.trakt;
 
     return (
-      // <Link to={linkTo}>
+      <Link to={linkTo}>
         <Card style={styles.card}>
           <CardHeader
             key={Math.random()}
@@ -55,7 +55,7 @@ class TvShowCard extends Component {
           </CardMedia>
 
         </Card>
-      // </Link>
+       </Link>
     );
   }
 }
