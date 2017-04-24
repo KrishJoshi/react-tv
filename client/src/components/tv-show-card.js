@@ -43,7 +43,7 @@ class TvShowCard extends Component {
     const linkTo = '/torrent/' + this.props.show.ids.trakt;
 
     return (
-      <Link to={linkTo}>
+      // <Link to={linkTo}>
         <Card style={styles.card}>
           <CardHeader
             key={Math.random()}
@@ -55,7 +55,7 @@ class TvShowCard extends Component {
           </CardMedia>
 
         </Card>
-      </Link>
+      // </Link>
     );
   }
 }
