@@ -1,0 +1,1 @@
+export const search = term => ({ type: 'search', payload: term })
