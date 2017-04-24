@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon -r babel-register server.js"
+    "build": "babel . --ignore node_modules,build --out-dir build",
+    "start": "nodemon -r babel-register server.js",
+    "start:prod": "node build/server.js"
   },
   "dependencies": {
     "axios": "^0.16.1",
