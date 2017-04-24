@@ -9,6 +9,7 @@ import {BrowserRouter as Router, Route, browserHistory, Switch} from 'react-rout
 
 import App from './components/App';
 import TvShow from './components/TvShow';
+import Tpb from './components/Tpb';
 import reducers from './reducers';
 import './index.css';
 
@@ -21,6 +22,7 @@ const page = <Provider store={store}>
 
         <Route exact path="/search/:name?" component={App}/>
         <Route path="/show/:traktId?" component={TvShow}/>
+        <Route path="/tpb/:query?" component={Tpb}/>
         <Route component={App}/>
       </Switch>
     </Router>
