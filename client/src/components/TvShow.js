@@ -6,12 +6,20 @@ import {getTvShow} from '../util/trakt-api'
 import {ActionFindInPage} from "material-ui/svg-icons/index";
 
 class TvShow extends Component {
+
   constructor() {
     super();
     this.state = {
-      show: []
+      show: [],
+      open: false
     };
   }
+
+  handleNestedListToggle = (item) => {
+    this.setState({
+      open: item.state.open,
+    });
+  };
 
   componentDidMount() {
     getTvShow(this.props.match.params.traktId).then(show => this.setState({show: show}))
@@ -48,7 +56,7 @@ class TvShow extends Component {
       )
     }
 
-    function seasonShowList(show) {
+    function seasonShowList(show, self) {
       return (
         <List>
           <Subheader>{show.title}</Subheader>
@@ -64,8 +72,8 @@ class TvShow extends Component {
                   icon={<ActionFindInPage />}
                 />
                 }
-                initiallyOpen={true}
-                primaryTogglesNestedList={true}
+                initiallyOpen={false}
+                onNestedListToggle={self.handleNestedListToggle}
                 nestedItems={episodesList(season)}
               />
             )
@@ -78,7 +86,7 @@ class TvShow extends Component {
       return (
         <div className='app'>
           {
-            seasonShowList(show)
+            seasonShowList(show, this)
           }
         </div>
       )

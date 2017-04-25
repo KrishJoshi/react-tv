@@ -35,7 +35,7 @@ export function getTvShow(text) {
 
       let promises = [];
       const imagePromise = getImage(show.ids.tvdb).catch(error => show);
-      const seasonPromise = getSeasons(show.ids.trakt);
+      const seasonPromise = getSeasons(show.ids.trakt).catch(error => show);
       promises.push(imagePromise);
       promises.push(seasonPromise);
 
