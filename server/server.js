@@ -1,21 +1,21 @@
 import bodyParser from 'body-parser'
 import express from 'express'
-const routes = require('./routes');
-import path from 'path'
+import routes from './routes/index'
 
 const app = express()
 // add the path module
-// get reference to the client build directory
-const staticFiles = express.static(path.join(__dirname, '../../client/build'))
-// pass the static files (react app) to the express app.
-app.use(staticFiles)
+import path from 'path'
+
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 
-require('./routes')(app, {}, {});
+const router = express.Router()
+app.use(router)
+app.use('/api', routes)
 
-// any routes not picked up by the server api will be handled by the react router
+const staticFiles = express.static(path.join(__dirname, '../../client/build'))
+app.use(staticFiles)
 app.use('/*', staticFiles)
 
 app.set('port', (process.env.PORT || 3001))

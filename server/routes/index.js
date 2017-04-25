@@ -1,26 +1,26 @@
-// routes/index.js
-import fs from "fs";
-const validFileTypes = ['js'];
+import express from "express";
+import {getTvShow, getTopTvShows, getSearchShows} from '../apis/trakt';
+import {getTorrents} from '../apis/tpb'
 
-let requireFiles = function(directory, app, config, db) {
-  fs.readdirSync(directory).forEach(function(fileName) {
-    // Recurse if directory
-    if (fs.lstatSync(directory + '/' + fileName).isDirectory()) {
-      requireFiles(directory + '/' + fileName, app, config, db);
-    } else {
+const router = express.Router();
 
-      // Skip this file
-      if (fileName === 'index.js' && directory === __dirname) return;
+/* TPB Shows */
+router.get('/tpb/:text', function(req, res, next) {
+  getTorrents(req.params.text).then(torrents => res.send(torrents))
+});
 
-      // Skip unknown filetypes
-      if (validFileTypes.indexOf(fileName.split('.').pop()) === -1) return;
 
-      // Require the file.
-      require(directory + '/' + fileName)(app, config, db);
-    }
-  });
-};
+/* TV Shows */
+router.get('/tvshow/:traktId', function(req, res, next) {
+  getTvShow(req.params.traktId).then(shows => res.send(shows))
+});
 
-module.exports = function(app, config, db) {
-  requireFiles(__dirname, app, config, db);
-};
+router.get('/tvshows/', function(req, res, next) {
+  getTopTvShows().then(showPromises => Promise.all(showPromises).then(shows => res.send(shows)))
+});
+
+router.get('/tvshows/:text', function(req, res, next) {
+  getSearchShows(req.params.text).then(showPromises => Promise.all(showPromises).then(shows => res.send(shows)))
+})
+
+module.exports = router
