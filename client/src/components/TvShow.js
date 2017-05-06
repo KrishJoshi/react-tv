@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import {ListItem, List, Subheader, RaisedButton} from 'material-ui';
+
+import {Layout, Menu, Spin} from 'antd';
+const {Header, Content, Sider} = Layout;
+const SubMenu = Menu.SubMenu;
 
 import {getTvShow} from '../util/trakt-api'
-import {ActionFindInPage} from "material-ui/svg-icons/index";
 
 class TvShow extends Component {
 
@@ -42,58 +44,63 @@ class TvShow extends Component {
     function episodesList(season) {
       return (
         season.episodes.map(episode => {
-          return <ListItem
-            key={episode.number}
-            primaryText={
-              <RaisedButton
-                label={<Link to={episodeSearchTitle(season, episode)}> {episode.title} </Link>}
-                labelPosition="before"
-                icon={<ActionFindInPage />}
-              />
-              }
-          />
+          return (<Menu.Item
+            key={episode.number}>
+            <Link to={episodeSearchTitle(season, episode)}> {episode.title} </Link>
+          </Menu.Item>)
         })
       )
     }
 
-    function seasonShowList(show, self) {
+    function seasonShowList(show) {
       return (
-        <List>
-          <Subheader>{show.title}</Subheader>
-
-          {
-            show.seasons.map(season =>
-              <ListItem
-                key={season.number}
-                primaryText={
-                  <RaisedButton
-                  label={<Link to={seasonSearchTitle(season)}>Season {season.number} </Link>}
-                  labelPosition="before"
-                  icon={<ActionFindInPage />}
-                />
-                }
-                initiallyOpen={false}
-                onNestedListToggle={self.handleNestedListToggle}
-                nestedItems={episodesList(season)}
-              />
-            )
-          }
-        </List>
+        <Sider style={{backgroundColor: '#fff'}}>
+          <Menu mode="inline">
+            {
+              show.seasons.map(season =>
+                <SubMenu
+                  key={season.number}
+                  title={
+                    <Link to={seasonSearchTitle(season)}>Season {season.number} </Link>
+                  }>
+                  {episodesList(season)}
+                </SubMenu>
+              )
+            }
+          </Menu>
+        </Sider>
       )
     }
 
     if (show.seasons) {
       return (
-        <div className='app'>
-          {
-            seasonShowList(show, this)
-          }
-        </div>
+        <Layout>
+          <Header>
+            <div className="logo"/>
+            <Menu
+              theme="dark"
+              mode="horizontal"
+              style={{lineHeight: '64px'}}>
+              <Menu.Item key="1"><Link to="/">Shows</Link></Menu.Item>
+              <Menu.Item key="2">Results</Menu.Item>
+              <Menu.Item key="3"><Link to="/tpb/"> ustom Search</Link></Menu.Item>
+            </Menu>
+          </Header>
+          <Layout>
+            {
+              seasonShowList(show, this)
+            }
+
+            <Content style={{background: '#fff', padding: 24, margin: 0, minHeight: 280}}>
+              Content
+            </Content>
+          </Layout>
+        </Layout>
       )
     } else {
       return (
-        <div>
-          {JSON.stringify(this.state)}
+        <div className="loading">
+          <Spin size="large"/>
         </div>
       )
     }

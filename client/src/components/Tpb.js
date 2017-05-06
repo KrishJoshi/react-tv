@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
+import {Layout, Input, Button, Table} from 'antd';
+const {Header, Content} = Layout;
+const Search = Input.Search;
 
 import {getTpb} from '../util/tpb-api'
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from "material-ui";
 
-import IconButton from 'material-ui/IconButton';
-import CloudDownload from 'material-ui/svg-icons/file/cloud-download';
 
 class Tpb extends Component {
   constructor() {
@@ -15,54 +15,56 @@ class Tpb extends Component {
   }
 
   componentDidMount() {
-    getTpb(this.props.match.params.query).then(results => this.setState({results: results}))
+    const query = this.props.match.params.query;
+    this.setState({value: query});
+    getTpb(query).then(results => this.setState({results: results}))
   }
 
-  render() {
+
+  getTorrentTable() {
+    const columns = [{
+      title: 'Name',
+      dataIndex: 'title',
+      key: 'title',
+    }, {
+      title: 'Seeders',
+      dataIndex: 'seeders',
+      key: 'seeders',
+    }, {
+      title: 'Seechers',
+      dataIndex: 'leechers',
+      key: 'leechers',
+    }, {
+      title: 'Actions',
+      dataIndex: 'magnet',
+      key: 'magnet',
+      render: (text, record) => (
+        <a href={record.magnet}><Button type="primary" shape="circle" icon="download"/></a>
+      )
+    }];
+
+
     const results = this.state.results.sort((result1, result2) => {
       return result1.seeders - result2.seeders
     }).reverse()
 
-    if (results.length) {
-      return (
-        <div className='app'>
+    return <Table columns={columns} dataSource={results}/>
 
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHeaderColumn>Title</TableHeaderColumn>
-                <TableHeaderColumn>Seeds</TableHeaderColumn>
-                <TableHeaderColumn>Leechers</TableHeaderColumn>
-                <TableHeaderColumn> </TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {
-                results.map(result =>
-                  <TableRow key={result.title}>
-                    <TableRowColumn>{result.title}</TableRowColumn>
-                    <TableRowColumn>{result.seeders}</TableRowColumn>
-                    <TableRowColumn>{result.leechers}</TableRowColumn>
-                    <TableRowColumn> <a
-                      href={result.magnet}>
-                      <IconButton>
-                        <CloudDownload />
-                      </IconButton>
-                    </a>
-                    </TableRowColumn>
-                  </TableRow>
-                )
-              }
-            </TableBody>
-          </Table>
+  }
 
-
-        </div>
-      )
-    } else {
-      return null
-    }
-
+  render() {
+    return (
+      <Layout style={{height: '100vh'}}>
+        <Layout>
+          <Header mode="inline">
+            <Search placeholder="Type a show's name" value={this.state.value} onChange={this.handleClickEvent}/>
+          </Header>
+          <Content>
+            {this.getTorrentTable()}
+          </Content>
+        </Layout>
+      </Layout>
+    )
   }
 }
 

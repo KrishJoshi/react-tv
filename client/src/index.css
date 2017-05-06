@@ -1,4 +1,18 @@
-.app a{
-    color: #fff;
-    text-decoration: none;
+@import '~antd/dist/antd.css';
+
+.ant-layout {
+    background-color: #ffffff;
+}
+
+.ant-card-body {
+    background-color: #ececec;
+}
+
+
+.loading {
+    text-align: center;
+    background: rgba(0,0,0,0.05);
+    border-radius: 4px;
+    padding: 30px 50px;
+    margin: 20px 0;
 }
