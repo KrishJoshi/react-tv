@@ -6,7 +6,8 @@ import {BrowserRouter as Router, Route, browserHistory, Switch} from 'react-rout
 
 import App from './components/App';
 import TvShow from './components/TvShow';
-import Tpb from './components/Tpb';
+import Search from './components/Search';
+import StreamzaFiles from './components/StreamzaFiles'
 import reducers from './reducers';
 import './index.css';
 
@@ -18,7 +19,8 @@ const page = <Provider store={store}>
     <Switch>
       <Route exact path="/search/:name?" component={App}/>
       <Route path="/show/:traktId?" component={TvShow}/>
-      <Route path="/tpb/:query?" component={Tpb}/>
+      <Route path="/torrent/:query?" component={Search}/>
+      <Route path="/stz/:id?" component={StreamzaFiles}/>
       <Route component={App}/>
     </Switch>
   </Router>
