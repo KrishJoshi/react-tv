@@ -5,7 +5,7 @@ import _ from 'lodash'
 function tpbItem(resultDto) {
   return {
     title: resultDto.title,
-    seeders: resultDto.seeders,
+    seeders: resultDto.seeds,
     leechers: resultDto.leechers,
     magnet: resultDto.magnet,
     type: 'tpb'
@@ -31,7 +31,7 @@ export function search(query) {
       let streamzaResults = responses[1];
 
       let results = _.map(streamzaResults, instantItem);
-      results = results.concat(_.chain(tpbResults).sortBy('seeders').map(tpbItem).value().reverse());
+      results = results.concat(_.chain(tpbResults).sortBy('seeds').map(tpbItem).value().reverse());
 
       resolve(results);
     })

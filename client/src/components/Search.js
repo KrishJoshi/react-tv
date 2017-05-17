@@ -46,7 +46,7 @@ class Tpb extends Component {
       dataIndex: 'seeders',
       key: 'seeders'
     }, {
-      title: 'Seechers',
+      title: 'Leechers',
       dataIndex: 'leechers',
       key: 'leechers'
     }, {
