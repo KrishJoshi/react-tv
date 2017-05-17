@@ -52,7 +52,8 @@ class TvShow extends Component {
         if (record.type === 'tpb')
           return <a href={record.magnet}><Button type="primary" shape="circle" icon="download"/></a>
         else
-          return <a href={'/stz/' + record.id}><Button type='primary' shape='circle'><Icon type='play-circle-o'/></Button></a>
+          return <a href={'/stz/' + record.id}><Button type='primary' shape='circle'><Icon
+            type='play-circle-o'/></Button></a>
       }
     }];
 
@@ -76,19 +77,20 @@ class TvShow extends Component {
     }
 
     function episodesList(season) {
-      return (
-        season.episodes.map(episode => {
-          return (<Menu.Item
-            key={episode.number}>
-            <a onClick={(e) => self.getTorrent(episodeSearchTitle(season, episode))}>
-              <Button type="primary"
-                      shape="circle"
-                      icon="download"/> {episode.title}
-            </a>
+      if (season.episodes)
+        return (
+          season.episodes.map(episode => {
+            return (<Menu.Item
+              key={episode.number}>
+              <a onClick={(e) => self.getTorrent(episodeSearchTitle(season, episode))}>
+                <Button type="primary"
+                        shape="circle"
+                        icon="download"/> {episode.title}
+              </a>
 
-          </Menu.Item>)
-        })
-      )
+            </Menu.Item>)
+          })
+        )
     }
 
     function seasonShowList(show) {
@@ -136,6 +138,9 @@ class TvShow extends Component {
             }
 
             <Content style={{background: '#fff', padding: 24, minHeight: 280}}>
+              <h1>{show.title}</h1>
+
+
               {this.getTorrentTable()}
             </Content>
           </Layout>

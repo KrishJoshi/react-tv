@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Layout, Button, Table, Icon, Input, Menu} from 'antd';
+import {Layout, Button, Table, Icon, Input, Menu, Spin} from 'antd';
 import {debounce} from 'throttle-debounce';
 const {Header, Content} = Layout;
 const Search = Input.Search;
@@ -14,6 +14,9 @@ class Tpb extends Component {
     this.state = {
       results: []
     };
+
+    this.handleSearch = debounce(500, this.handleSearch);
+
   }
 
   componentDidMount() {
@@ -29,10 +32,12 @@ class Tpb extends Component {
     this.props.history.push(`/torrent/${value}`)
 
     this.setState({value: value});
-    debounce(1000, this.handleSearch(value))();
+    this.handleSearch(value)
   };
 
   handleSearch = (value) => {
+    this.setState({results: false});
+
     search(value).then(results => this.setState({results: results}))
   };
 
@@ -65,29 +70,59 @@ class Tpb extends Component {
   }
 
   render() {
-    return (
-      <Layout style={{height: '100vh'}}>
-        <Layout>
-          <Header mode="inline">
-            <Menu
-              theme="dark"
-              mode="horizontal"
-              style={{lineHeight: '64px'}}>
-              <Menu.Item key="1"><Link to="/">Shows</Link></Menu.Item>
-              <Menu.Item key="3"><Link to="/torrent/">Custom Search</Link></Menu.Item>
-            </Menu>
-          </Header>
-          <Header mode="inline">
-            <Search placeholder="Type a show's name" value={this.state.value} onChange={this.handleChange}/>
-          </Header>
+    if (this.state.results)
+      return (
+        <Layout style={{height: '100vh'}}>
+          <Layout>
+            <Header mode="inline">
+              <Menu
+                theme="dark"
+                mode="horizontal"
+                style={{lineHeight: '64px'}}>
+                <Menu.Item key="1"><Link to="/">Shows</Link></Menu.Item>
+                <Menu.Item key="3"><Link to="/torrent/">Custom Search</Link></Menu.Item>
+              </Menu>
+            </Header>
+            <Header mode="inline">
+              <Search placeholder="Type a show's name" value={this.state.value}
+                      onChange={this.handleChange.bind(this)}/>
+            </Header>
 
 
-          <Content>
-            {this.getTorrentTable()}
-          </Content>
+            <Content>
+              {this.getTorrentTable()}
+            </Content>
+          </Layout>
         </Layout>
-      </Layout>
-    )
+      )
+    else
+      return (
+        <Layout style={{height: '100vh'}}>
+          <Layout>
+            <Header mode="inline">
+              <Menu
+                theme="dark"
+                mode="horizontal"
+                style={{lineHeight: '64px'}}>
+                <Menu.Item key="1"><Link to="/">Shows</Link></Menu.Item>
+                <Menu.Item key="3"><Link to="/torrent/">Custom Search</Link></Menu.Item>
+              </Menu>
+            </Header>
+            <Header mode="inline">
+              <Search placeholder="Type a show's name" value={this.state.value}
+                      onChange={this.handleChange.bind(this)}/>
+            </Header>
+
+
+            <Content>
+              <div className="loading">
+                <Spin size="large"/>
+              </div>
+            </Content>
+          </Layout>
+        </Layout>
+      )
+
   }
 }
 
