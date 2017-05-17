@@ -24,10 +24,12 @@ class Tpb extends Component {
 
   handleChange = (event) => {
     event.persist();
+
     const value = event.target.value;
+    this.props.history.push(`/torrent/${value}`)
 
     this.setState({value: value});
-    debounce(300, this.handleSearch(value))();
+    debounce(1000, this.handleSearch(value))();
   };
 
   handleSearch = (value) => {
