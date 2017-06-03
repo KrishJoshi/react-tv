@@ -50,12 +50,17 @@ function getDashboard() {
 
 export function getStreamzaTorrents() {
   return getDashboard().then($ => {
-    const torrents = $('#torrent_list a span');
-    const list = _.map(torrents, torrent => {
-      const $torrent = $(torrent);
-      return {name: $torrent.text(), id: $torrent[0].attribs.id.replace('data1_', '')}
-    });
-    return list
+    const torrents = $('#torrent_list').find('a span');
+    return _.chain(torrents)
+            .map(torrent => $(torrent))
+            .filter(torrent => {
+              return torrent[0].attribs.id
+            })
+            .map(torrent => {
+              const $torrent = $(torrent);
+              return {name: $torrent.text(), id: $torrent[0].attribs.id.replace('data1_', '')}
+            })
+            .value()
   })
 }
 

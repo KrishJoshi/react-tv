@@ -43,6 +43,11 @@ router.get('/streamza/torrent/:torrentId', function(req, res, next) {
   });
 })
 
+router.get('/streamza/torrent/add/:magnet', function(req, res, next) {
+  addTorrent(req.params.magnet).then(data => {
+    res.send(data.torrent_id)
+  });
+})
 
 router.get('/streamza/:query', function(req, res, next) {
   instantSearch(req.params.query).then(data => {
