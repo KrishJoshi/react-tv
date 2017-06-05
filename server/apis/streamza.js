@@ -15,7 +15,8 @@ const urls = {
   login: 'https://streamza.com/gettingstarted.php?action=signin',
   torrent: 'https://streamza.com/torrents.php',
   addTorrent: 'https://streamza.com/torrent_add.php',
-  instant: 'https://streamza.com/search_instant.php'
+  instant: 'https://streamza.com/search_instant.php',
+  deleteTorrent: 'https://streamza.com/torrent_delete.php'
 }
 
 const userdata = {
@@ -143,5 +144,15 @@ export function addTorrent(torrentUrl) {
         resolve(body);
       })
     })
+  })
+}
+
+export function removeAll() {
+  return getStreamzaTorrents().then(torrents => {
+    _.each(torrents, (torrent) => req.post({
+                                             url: urls.deleteTorrent,
+                                             form: {'value': torrent.id}
+                                           }, console.log(torrent.id, 'deleted'))
+    );
   })
 }

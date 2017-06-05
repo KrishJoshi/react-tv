@@ -1,7 +1,7 @@
 import express from "express";
 import {getTvShow, getTopTvShows, getSearchShows} from '../apis/trakt';
 import {getTorrents} from '../apis/tpb'
-import {instantSearch, getStreamzaTorrents, getTorrent} from '../apis/streamza'
+import {instantSearch, getStreamzaTorrents, getTorrent, removeAll} from '../apis/streamza'
 
 const router = express.Router();
 
@@ -37,6 +37,11 @@ router.get('/streamza/', function(req, res, next) {
   });
 })
 
+
+router.get('/streamza/clear', function(req, res, next) {
+  removeAll().then(res.send(true));
+})
+
 router.get('/streamza/torrent/:torrentId', function(req, res, next) {
   getTorrent(req.params.torrentId).then(data => {
     res.send(data)
@@ -54,8 +59,6 @@ router.get('/streamza/:query', function(req, res, next) {
     res.send(data)
   });
 })
-
-
 
 
 module.exports = router

@@ -19,3 +19,9 @@ export function getFile(id) {
     .get('/api/streamza/torrent/' + id)
     .then(file => file.data);
 }
+
+export function addTorrent(magnet) {
+  return axios
+    .get('/api/streamza/add/' + magnet)
+    .then(matadata => matadata.data);
+}

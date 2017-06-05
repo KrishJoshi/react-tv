@@ -59,7 +59,9 @@ class Tpb extends Component {
       key: 'action',
       render: (text, record) => {
         if (record.type === 'tpb')
-          return <a href={record.magnet}><Button type="primary" shape="circle" icon="download"/></a>
+          return ( <a href={record.magnet}><Button type="primary" shape="circle" icon="download"/></a>
+          <a onClick={record.magnet}><Button type="primary" shape="circle" icon="download"/></a>
+          )
         else
           return <a href={'/stz/' + record.id}><Button type='primary' shape='circle'><Icon
             type='play-circle-o'/></Button></a>
