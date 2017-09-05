@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {debounce} from 'throttle-debounce';
-import {Link} from 'react-router-dom';
-import {Layout, Input, Row, Col, Menu} from 'antd';
-const {Header, Content} = Layout;
+import {Layout, Input, Row, Col} from 'antd';
+const {Header} = Layout;
 const Search = Input.Search;
 
 import TvShowCard from './TvShowCard';
 
-import {getTopTvShows, getSearchShows} from '../util/trakt-api'
-import {search} from '../actions'
+import {getTopTvShows, getSearchShows} from '../../util/trakt-api'
+import {search} from '../../actions/index'
+import Body from '../Body/Body';
 
 
 class App extends Component {
@@ -46,34 +46,26 @@ class App extends Component {
                                                                                 show={show}/></Col>
   }
 
+  search() {
+    return <Header mode="inline">
+      <Search placeholder="Type a show's name" value={this.state.value} onChange={this.handleClickEvent}/>
+    </Header>
+  }
+
   render() {
     return (
-      <Layout style={{height: '100vh'}}>
-        <Layout>
-          <Header>
-            <Menu
-              theme="dark"
-              mode="horizontal"
-              style={{lineHeight: '64px'}}>
-              <Menu.Item key="1"><Link to="/">Shows</Link></Menu.Item>
-              <Menu.Item key="3"><Link to="/torrent/">Custom Search</Link></Menu.Item>
-            </Menu>
-          </Header>
-          <Header mode="inline">
-            <Search placeholder="Type a show's name" value={this.state.value} onChange={this.handleClickEvent}/>
-          </Header>
-          <Content>
-            <Row>
-              {this
-                .state
-                .shows
-                .map(show => {
-                  return this.createTvShowCardCol(show)
-                })}
-            </Row>
-          </Content>
-        </Layout>
+      <Body isLoaded={this.state.shows.length} search={this.search()}>
+      <Layout>
+        <Row>
+          {this
+            .state
+            .shows
+            .map(show => {
+              return this.createTvShowCardCol(show)
+            })}
+        </Row>
       </Layout>
+      </Body>
     );
   }
 }

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {Card, Rate} from 'antd';
 
-
 class TvShowCard extends Component {
   constructor(props) {
     super(props);
