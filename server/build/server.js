@@ -33,7 +33,7 @@ var staticFiles = _express2.default.static(_path2.default.join(__dirname, '../..
 app.use(staticFiles);
 app.use('/*', staticFiles);
 
-app.set('port', process.env.PORT || 80);
+app.set('port', process.env.PORT || 3001);
 app.listen(app.get('port'), function () {
   console.log('Listening on ' + app.get('port'));
 });
