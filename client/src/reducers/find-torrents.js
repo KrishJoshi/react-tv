@@ -4,7 +4,7 @@ import _ from 'lodash'
 function tpbItem(resultDto) {
   return {
     title: resultDto.title,
-    seeders: resultDto.seeds,
+    seeders: resultDto.seeders,
     leechers: resultDto.leechers,
     magnet: resultDto.magnet,
     type: 'tpb'
@@ -19,7 +19,7 @@ export function search(query) {
     Promise.all(search).then(responses => {
       let tpbResults = responses[0];
 
-      let results = _.chain(tpbResults).sortBy('seeds').map(tpbItem).value().reverse();
+      let results = _.chain(tpbResults).sortBy('seeders').map(tpbItem).value().reverse();
 
       resolve(results);
     })

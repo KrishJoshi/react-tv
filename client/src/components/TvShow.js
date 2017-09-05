@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-
 import {Layout, Menu, Spin, Button, Table, Icon} from 'antd';
-const {Header, Content, Sider} = Layout;
-const SubMenu = Menu.SubMenu;
-
 import {search} from '../reducers/find-torrents'
 import {getTvShow} from '../util/trakt-api'
+
+const {Header, Content, Sider} = Layout;
+const SubMenu = Menu.SubMenu;
 
 class TvShow extends Component {
 
@@ -49,11 +48,7 @@ class TvShow extends Component {
       title: 'Actions',
       key: 'action',
       render: (text, record) => {
-        if (record.type === 'tpb')
-          return <a href={record.magnet}><Button type="primary" shape="circle" icon="download"/></a>
-        else
-          return <a href={'/stz/' + record.id}><Button type='primary' shape='circle'><Icon
-            type='play-circle-o'/></Button></a>
+        return <a href={record.magnet}><Button type="primary" shape="circle" icon="download"/></a>
       }
     }];
 
