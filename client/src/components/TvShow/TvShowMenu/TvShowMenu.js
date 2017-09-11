@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Menu, Button} from 'antd';
+import {Menu, Button, Layout} from 'antd';
 const SubMenu = Menu.SubMenu;
 
 class TvShowMenu extends Component {
@@ -41,24 +41,31 @@ class TvShowMenu extends Component {
     function seasonShowList(show) {
       if (Object.keys(show).length)
         return (
-          <Menu mode="inline">
-            {
-              show.seasons.map(season =>
-                                 <SubMenu
-                                   key={season.number}
-                                   title={
-                                     <a onClick={(e) => self.props.getTorrent(seasonSearchTitle(season))}>
-                                       <Button
-                                         type="primary"
-                                         shape="circle"
-                                         icon="download"/>
-                                       Season {season.number} </a>
-                                   }>
-                                   {episodesList(season)}
-                                 </SubMenu>
-              )
-            }
-          </Menu>
+          <Layout
+            breakpoint="lg"
+            collapsedWidth="0"
+            onCollapse={(collapsed, type) => {
+              console.log(collapsed, type);
+            }}>
+            <Menu mode="inline">
+              {
+                show.seasons.map(season =>
+                                   <SubMenu
+                                     key={season.number}
+                                     title={
+                                       <a onClick={(e) => self.props.getTorrent(seasonSearchTitle(season))}>
+                                         <Button
+                                           type="primary"
+                                           shape="circle"
+                                           icon="download"/>
+                                         Season {season.number} </a>
+                                     }>
+                                     {episodesList(season)}
+                                   </SubMenu>
+                )
+              }
+            </Menu>
+          </Layout>
         )
     }
   }

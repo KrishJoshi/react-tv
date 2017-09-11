@@ -23,7 +23,11 @@ class Body extends Component {
 
   getMenu() {
     if (this.props.menu)
-      return <Sider>
+      return <Sider breakpoint="md"
+                    collapsedWidth="0"
+                    onCollapse={(collapsed, type) => {
+                      console.log(collapsed, type);
+                    }}>
         {this.props.menu}
       </Sider>
     else

@@ -42,7 +42,7 @@ class App extends Component {
   }
 
   createTvShowCardCol(show) {
-    return <Col key={Math.random()} span={8} style={{padding: 10}}> <TvShowCard key={Math.random()}
+    return <Col key={Math.random()} sm={12} xl={6} style={{padding: 10}}> <TvShowCard key={Math.random()}
                                                                                 show={show}/></Col>
   }
 

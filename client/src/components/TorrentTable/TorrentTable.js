@@ -10,22 +10,27 @@ class TorrentTable extends Component {
       dataIndex: 'title',
       key: 'title'
     }, {
-      title: 'Seeders',
-      dataIndex: 'seeders',
-      key: 'seeders'
-    }, {
       title: 'Leechers',
       dataIndex: 'leechers',
       key: 'leechers'
+    }, {
+      title: 'Seeders',
+      dataIndex: 'seeders',
+      key: 'seeders',
+      fixed: 'right',
+      width: 100
     }, {
       title: 'Actions',
       key: 'action',
       render: (text, record) => {
         return <a href={record.magnet}><Button type="primary" shape="circle" icon="download"/></a>
-      }
+      },
+      fixed: 'right',
+      width: 100
     }];
 
-    return <Table columns={columns} locale={{emptyText: 'No items found'}} dataSource={this.props.results}/>
+    return <Table scroll={{x: 600}} columns={columns} locale={{emptyText: 'No items found'}}
+                  dataSource={this.props.results}/>
   }
 
   render() {
